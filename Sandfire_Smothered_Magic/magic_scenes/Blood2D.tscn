@@ -1,0 +1,126 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://textures/Gradients/BloodGradient.tres" type="Texture" id=1]
+[ext_resource path="res://materials/Ruby.tres" type="Material" id=2]
+[ext_resource path="res://materials/Splatter.tres" type="Material" id=3]
+[ext_resource path="res://textures/circular_mask.png" type="Texture" id=4]
+[ext_resource path="res://materials/Blood.tres" type="Material" id=5]
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 0.521591 ), 0.0, 1.82149, 0, 0, Vector2( 1, 1 ), -1.16165, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+width = 512
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+lifetime_randomness = 1.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 500, 0 )
+initial_velocity = 300.0
+angular_velocity = 45.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 2.0
+scale_random = 0.5
+scale_curve = SubResource( 6 )
+color_ramp = ExtResource( 1 )
+
+[sub_resource type="Gradient" id=9]
+offsets = PoolRealArray( 0.0766129, 0.698462, 1 )
+colors = PoolColorArray( 0.890196, 0.0745098, 0.152941, 1, 0.203125, 0, 0, 1, 0.304688, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
+width = 1024
+
+[sub_resource type="Curve" id=11]
+_data = [ Vector2( 0, 1 ), 0.0, 0.790908, 0, 0, Vector2( 1, 0.236364 ), -3.55909, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=12]
+width = 512
+curve = SubResource( 11 )
+
+[sub_resource type="ParticlesMaterial" id=13]
+lifetime_randomness = 0.14
+emission_shape = 1
+emission_sphere_radius = 32.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 180.0
+gravity = Vector3( 0, -2000, 0 )
+initial_velocity = 400.0
+initial_velocity_random = 1.0
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 2.0
+scale_random = 1.0
+scale_curve = SubResource( 12 )
+color_ramp = SubResource( 10 )
+
+[sub_resource type="Gradient" id=17]
+offsets = PoolRealArray( 0, 0.292308, 0.676923, 1 )
+colors = PoolColorArray( 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=18]
+gradient = SubResource( 17 )
+width = 1024
+
+[sub_resource type="Curve" id=19]
+_data = [ Vector2( 0, 0.557954 ), 0.0, 0.809303, 0, 0, Vector2( 1, 1 ), 0.294056, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=20]
+width = 512
+curve = SubResource( 19 )
+
+[sub_resource type="ParticlesMaterial" id=21]
+emission_shape = 2
+emission_box_extents = Vector3( 250, 8, 0 )
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 5.0
+scale_random = 0.2
+scale_curve = SubResource( 20 )
+color_ramp = SubResource( 18 )
+
+[node name="Blood2D" type="Particles2D"]
+material = ExtResource( 5 )
+amount = 32
+randomness = 1.0
+draw_order = 1
+process_material = SubResource( 7 )
+texture = ExtResource( 4 )
+
+[node name="Splatter2D" type="Particles2D" parent="."]
+material = ExtResource( 3 )
+amount = 64
+lifetime = 0.5
+speed_scale = 0.7
+explosiveness = 0.25
+randomness = 1.0
+draw_order = 1
+process_material = SubResource( 13 )
+texture = ExtResource( 4 )
+
+[node name="Ruby2D" type="Particles2D" parent="Splatter2D"]
+material = ExtResource( 2 )
+z_index = -1
+amount = 12
+lifetime = 2.0
+speed_scale = 0.2
+randomness = 1.0
+fixed_fps = 24
+draw_order = 1
+process_material = SubResource( 21 )
+texture = ExtResource( 4 )
