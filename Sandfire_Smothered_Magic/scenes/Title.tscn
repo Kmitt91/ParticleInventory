@@ -1,0 +1,145 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://textures/magic_masks/particle_hard.png" type="Texture" id=1]
+[ext_resource path="res://materials/Sandfire2D.tres" type="Material" id=2]
+[ext_resource path="res://data/AcolonicaFont.tres" type="DynamicFont" id=3]
+[ext_resource path="res://textures/Sandfire_Logo_Col.png" type="Texture" id=4]
+[ext_resource path="res://Environment.tres" type="Environment" id=5]
+[ext_resource path="res://scripts/TitleScreen.gd" type="Script" id=6]
+[ext_resource path="res://scenes/TransitionScreen.tscn" type="PackedScene" id=7]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+blend_mode = 1
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.756158, 0.877273 ), -1.70705, -1.70705, 0, 0, Vector2( 1, 0.213636 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.276762, 0.407311, 0.684073, 1 )
+colors = PoolColorArray( 1, 0.882353, 0.458824, 1, 0.541176, 0.4, 0.286275, 1, 0.56125, 0.421103, 0.293824, 1, 1, 0.882353, 0.458824, 1, 0, 0, 0, 0 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "text_anim"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Background/Start:custom_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.678431, 0.662745, 0.588235, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="TitleScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0941176, 0.0666667, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PopSmoke" type="ColorRect" parent="Background"]
+material = ExtResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Background"]
+material = SubResource( 1 )
+position = Vector2( 960, 1080 )
+amount = 16
+lifetime = 4.0
+speed_scale = 0.5
+texture = ExtResource( 1 )
+emission_shape = 2
+emission_rect_extents = Vector2( 1080, 1.454 )
+gravity = Vector2( 0, -98 )
+initial_velocity = 10.0
+orbit_velocity = 0.02
+orbit_velocity_random = 1.0
+linear_accel = 10.0
+linear_accel_random = 1.0
+scale_amount = 0.1
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
+
+[node name="LogoSandfire" type="TextureRect" parent="Background"]
+margin_left = 192.217
+margin_top = 128.954
+margin_right = 2112.22
+margin_bottom = 589.954
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VersionLabel" type="Label" parent="Background/LogoSandfire"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 508.721
+margin_top = -52.7242
+margin_right = 881.721
+margin_bottom = -8.72421
+custom_fonts/font = ExtResource( 3 )
+text = "Smothered Magic"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Start" type="Label" parent="Background"]
+margin_left = 2.56982
+margin_top = 815.538
+margin_right = 1922.57
+margin_bottom = 864.538
+rect_pivot_offset = Vector2( 960, 22 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "- PRESS TO START -"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Copyright" type="Label" parent="Background"]
+margin_left = -0.16272
+margin_top = 1000.3
+margin_right = 1919.84
+margin_bottom = 1101.3
+rect_scale = Vector2( 0.6, 0.6 )
+rect_pivot_offset = Vector2( 960, 45.5 )
+custom_fonts/font = ExtResource( 3 )
+text = "Developed by Kmitt91
+Copyright (c) 2021 N.Kmitta"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "text_anim"
+anims/text_anim = SubResource( 4 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 5 )
+
+[node name="TransitionScreen" parent="." instance=ExtResource( 7 )]
+
+[connection signal="transitioned" from="TransitionScreen" to="." method="_on_TransitionScreen_transitioned"]
