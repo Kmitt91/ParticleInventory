@@ -52,22 +52,22 @@ SOFTWARE.
 
 
 
------------------------
+
 Special thanks to Arkeve: https://www.youtube.com/channel/UC_CC9isZsKofGK8gMy8uhPQ
 for the great Inventory tutorials on which I was able to build upon!!!
------------------------
+
 
 
 
 
 THE FOLLOING ASSEST WERE NOT MADE BY MYSELF:
 
------------------------
+
 particle_vortex.png
 particle_spotlight.png
 HoleNoise.png
 WispyNoise.png
------------------------
+
 
 particle_vortex.png, particle_spotlight.png
 
@@ -77,9 +77,9 @@ you can find him here:
 https://www.raffaelepicca.com/ ,
 https://www.youtube.com/channel/UChaDoWxaw4I--8ioWjkzHrw ,
 https://twitter.com/MV_Raffa ,
------------------------
+
 and
------------------------
+
 
 HoleNoise.png, WispyNoise.png
 
@@ -92,7 +92,7 @@ Copyright (c) 2020 GDQuest
 https://www.gdquest.com/
 https://www.youtube.com/channel/UCxboW7x0jZqFdvMdCFKTMsQ
 https://twitter.com/NathanGDQuest
------------------------
+
 
 
 Main inspirations:
