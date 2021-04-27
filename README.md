@@ -8,7 +8,7 @@ This project is dual-licensed:
 - The assets/textures (exept the four listed below) are only for personal use, 
 	that includes commercial and non-commercial projects
 
-
+-------------------------------------
 
 FOR PERSONAL USE ONLY:
 Copyright (c) 2021 Nikita Kmitta
@@ -19,7 +19,7 @@ If you edit and change a texture, please ask me beforehand if you want to use on
 	If so please contact me on Twitter: https://twitter.com/kmitt91
 	or per Email: nikita.kmitta@postbits.de
 
-
+-------------------------------------
 
 
 MIT License
@@ -47,7 +47,7 @@ SOFTWARE.
 
 
 
-
+------------------------------------
 
 
 
@@ -57,18 +57,18 @@ Special thanks to Arkeve: https://www.youtube.com/channel/UC_CC9isZsKofGK8gMy8uh
 for the great Inventory tutorials on which I was able to build upon!!!
 
 
-
+----------------------------------------------
 
 
 THE FOLLOING ASSEST WERE NOT MADE BY MYSELF:
-
+-
 
 particle_vortex.png
 particle_spotlight.png
 HoleNoise.png
 WispyNoise.png
 
-
+---------------------------------------
 particle_vortex.png, particle_spotlight.png
 
 by RPicster under the Creative Commons Zero v1.0 Universal Licence
@@ -94,6 +94,7 @@ https://www.youtube.com/channel/UCxboW7x0jZqFdvMdCFKTMsQ
 https://twitter.com/NathanGDQuest
 
 
+-----------------------------------------
 
 Main inspirations:
 
