@@ -27,25 +27,12 @@ func _ready():
 	
 	$Sprite.texture = load("res://textures/scroll_symbols/" + spell_name + ".png")
 	
-#	var stack_size = int(JsonData.item_data[spell_name]["StackSize"])
-#	item_quantity = randi() % stack_size + 1
-	
-#	if stack_size == 1:
-#		$Label.visible = false
-#	else:
-#		$Label.text = String(item_quantity)
 
 func set_item(nm, qt):
 	spell_name = nm
 	item_quantity = qt
 	$TextureRect.texture = load("res://item_icons/" + spell_name + ".png")
 	
-#	var stack_size = int(JsonData.item_data[spell_name]["StackSize"])
-#	if stack_size == 1:
-#		$Label.visible = false
-#	else:
-#		$Label.visible = true
-#		$Label.text = String(item_quantity)
 		
 func add_item_quantity(amount_to_add):
 	item_quantity += amount_to_add
