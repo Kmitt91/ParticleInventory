@@ -78,7 +78,7 @@ https://www.raffaelepicca.com/ ,
 https://www.youtube.com/channel/UChaDoWxaw4I--8ioWjkzHrw ,
 https://twitter.com/MV_Raffa ,
 -----------------------
-	 and
+and
 -----------------------
 
 HoleNoise.png, WispyNoise.png
