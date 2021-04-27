@@ -1,0 +1,48 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://textures/magic_masks/particle_smooth.png" type="Texture" id=1]
+[ext_resource path="res://textures/test.png" type="Texture" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform sampler2D noise_texture;
+uniform sampler2D texture_mask;
+
+uniform float emission_intensity = 2.0;
+uniform float time_scale = 1.0;
+uniform vec2 texture_scale = vec2(1.0);
+uniform float edge_softness = 0.1;
+
+
+void fragment() {
+	
+	vec2 base_uv = UV * texture_scale;
+	vec2 time_based_pan = vec2(0.2, 1.0) * (- TIME * time_scale);
+	
+	vec4 mask = texture(texture_mask, UV);
+	vec4 noise = texture(noise_texture, base_uv + time_based_pan);
+
+	
+	
+	vec4 col = COLOR * mask * noise.r;
+	
+	float erosion_amount = (1.0 - COLOR.a);
+	float alpha = (noise.r * mask.r) - erosion_amount;
+	alpha = clamp(alpha, 0.0, 1.0);
+	
+	
+	COLOR = col * emission_intensity;// * smoothstep(0.0, edge_softness, alpha);
+	
+	
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/emission_intensity = 4.0
+shader_param/time_scale = 0.5
+shader_param/texture_scale = Vector2( 1, 1 )
+shader_param/edge_softness = 0.1
+shader_param/noise_texture = ExtResource( 2 )
+shader_param/texture_mask = ExtResource( 1 )
