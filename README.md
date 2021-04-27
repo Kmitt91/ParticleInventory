@@ -63,9 +63,9 @@ for the great Inventory tutorials on which I was able to build upon!!!
 THE FOLLOING ASSEST WERE NOT MADE BY MYSELF:
 -
 
-particle_vortex.png
-particle_spotlight.png
-HoleNoise.png
+particle_vortex.png,
+particle_spotlight.png,
+HoleNoise.png,
 WispyNoise.png
 
 ---------------------------------------
