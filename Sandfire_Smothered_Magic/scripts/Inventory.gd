@@ -36,16 +36,6 @@ func slot_gui_input(event: InputEvent, slot: SlotClass):
 						temp_item.global_position = event.global_position
 						slot.putIntoSlot(holding_item)
 						holding_item = temp_item
-#					else:
-#						var stack_size = int(JsonData.item_data[slot.spell.spell_name]["StackSize"])
-#						var able_to_add = stack_size - slot.spell.item_quantity
-#						if able_to_add >= holding_item.item_quantity:
-#							slot.spell.add_item_quantity(holding_item.item_quantity)
-#							holding_item.queue_free()
-#							holding_item = null
-#						else:
-#							slot.spell.add_item_quantity(able_to_add)
-#							holding_item.decrease_item_quantity(able_to_add)
 			elif slot.spell:
 				holding_item = slot.spell
 				slot.pickFromSlot()
