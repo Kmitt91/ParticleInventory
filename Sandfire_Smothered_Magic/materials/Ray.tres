@@ -1,0 +1,29 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://textures/Gradients/RayGradient.tres" type="Texture" id=1]
+[ext_resource path="res://textures/magic_masks/particle_ray.png" type="Texture" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform sampler2D gradient_texture;
+uniform sampler2D texture_mask;
+
+uniform float emission_intensity = 2.0;
+
+
+void fragment() {
+	vec4 mask = texture(texture_mask, UV);
+	vec4 gradient = texture(gradient_texture, vec2(1.0 - UV.y, 0));
+	
+	vec4 col = COLOR * mask * gradient;
+	
+	COLOR = col * emission_intensity;
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/emission_intensity = 1.5
+shader_param/gradient_texture = ExtResource( 1 )
+shader_param/texture_mask = ExtResource( 2 )
