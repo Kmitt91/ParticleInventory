@@ -1,0 +1,428 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://scripts/Slot.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Main.gd" type="Script" id=2]
+[ext_resource path="res://Environment.tres" type="Environment" id=3]
+[ext_resource path="res://textures/TOR_finger.png" type="Texture" id=4]
+[ext_resource path="res://textures/TOR_body.png" type="Texture" id=5]
+[ext_resource path="res://textures/mask.png" type="Texture" id=6]
+[ext_resource path="res://textures/TOR_hand_1024.png" type="Texture" id=7]
+[ext_resource path="res://textures/scroll_symbols/scroll.png" type="Texture" id=8]
+[ext_resource path="res://scripts/Inventory.gd" type="Script" id=9]
+[ext_resource path="res://scenes/TransitionScreen.tscn" type="PackedScene" id=10]
+
+[sub_resource type="Animation" id=1]
+resource_name = "hand_anim"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 783.438, 833.709 ), Vector2( 781.656, 815 ), Vector2( 783.438, 833.709 ) ]
+}
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+
+uniform sampler2D noise_texture;
+uniform float speed;
+uniform float glow_strengh;
+uniform float noise_strengh;
+uniform vec4 glow_color : hint_color;
+
+
+void fragment() {
+	
+// Texture Mask
+	vec4 mask = texture(TEXTURE, UV);
+// Texture Noise
+	vec4 noise = texture(noise_texture, UV + vec2(0.0, TIME * 0.05));
+// Multiply tex only effect in mask area
+	vec4 tex_mix = mask * noise;
+	
+// Adjust time
+	float time = TIME * speed;
+	
+	float pulse = noise_strengh;
+	
+	float dot_product = dot(noise.rgb, vec3(noise_strengh));
+	float rounded_movement = round(dot_product);
+	
+	vec4 col = mask.r * glow_color * glow_strengh;
+
+	COLOR = vec4(col) * rounded_movement;
+	
+}"
+
+[sub_resource type="OpenSimplexNoise" id=3]
+
+[sub_resource type="NoiseTexture" id=4]
+seamless = true
+noise = SubResource( 3 )
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 2 )
+shader_param/speed = 1.0
+shader_param/glow_strengh = 0.55
+shader_param/noise_strengh = 1.756
+shader_param/glow_color = Color( 0.580392, 0.301961, 0, 1 )
+shader_param/noise_texture = SubResource( 4 )
+
+[sub_resource type="Animation" id=6]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/glow_strengh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.55, 0.4, 0.4, 0.55 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/noise_strengh")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.756, 2.371, 1.756 ]
+}
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color( 0.109804, 0.109804, 0.109804, 1 )
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.0392157, 0.0392157, 0.0392157, 1 )
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color( 0.0745098, 0.0745098, 0.0745098, 1 )
+border_blend = true
+
+[node name="MagicInventory" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="2DEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 3 )
+
+[node name="particle" type="Node2D" parent="."]
+position = Vector2( 753.672, 530.756 )
+
+[node name="Hand" type="Sprite" parent="."]
+position = Vector2( 783.438, 833.709 )
+rotation = -0.139626
+scale = Vector2( 0.4, 0.4 )
+z_index = -5
+texture = ExtResource( 7 )
+
+[node name="Finger" type="Sprite" parent="Hand"]
+z_index = 5
+texture = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hand"]
+autoplay = "hand_anim"
+playback_speed = 0.2
+anims/hand_anim = SubResource( 1 )
+
+[node name="Body" type="Sprite" parent="."]
+position = Vector2( 427.326, 315.071 )
+scale = Vector2( 0.75, 0.75 )
+z_index = -10
+texture = ExtResource( 5 )
+
+[node name="Mask" type="TextureRect" parent="Body"]
+material = SubResource( 5 )
+margin_left = -246.082
+margin_top = -235.177
+margin_right = 9.91806
+margin_bottom = 20.823
+rect_scale = Vector2( 1.8, 1.8 )
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body/Mask"]
+autoplay = "pulse_mask"
+playback_speed = 0.2
+anims/pulse_mask = SubResource( 6 )
+
+[node name="Inventory" type="Node2D" parent="."]
+script = ExtResource( 9 )
+
+[node name="ScrollContainer" type="GridContainer" parent="Inventory"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 1324.77
+margin_top = 231.643
+margin_right = 1866.77
+margin_bottom = 1027.64
+columns = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Inventory/ScrollContainer"]
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel2" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 132.0
+margin_right = 260.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel3" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 264.0
+margin_right = 392.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel4" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 396.0
+margin_right = 524.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel5" type="Panel" parent="Inventory/ScrollContainer"]
+margin_top = 132.0
+margin_right = 128.0
+margin_bottom = 260.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel6" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 132.0
+margin_top = 132.0
+margin_right = 260.0
+margin_bottom = 260.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel7" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 264.0
+margin_top = 132.0
+margin_right = 392.0
+margin_bottom = 260.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel8" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 396.0
+margin_top = 132.0
+margin_right = 524.0
+margin_bottom = 260.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel9" type="Panel" parent="Inventory/ScrollContainer"]
+margin_top = 264.0
+margin_right = 128.0
+margin_bottom = 392.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel10" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 132.0
+margin_top = 264.0
+margin_right = 260.0
+margin_bottom = 392.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel11" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 264.0
+margin_top = 264.0
+margin_right = 392.0
+margin_bottom = 392.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel12" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 396.0
+margin_top = 264.0
+margin_right = 524.0
+margin_bottom = 392.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel13" type="Panel" parent="Inventory/ScrollContainer"]
+margin_top = 396.0
+margin_right = 128.0
+margin_bottom = 524.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel14" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 132.0
+margin_top = 396.0
+margin_right = 260.0
+margin_bottom = 524.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel15" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 264.0
+margin_top = 396.0
+margin_right = 392.0
+margin_bottom = 524.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel16" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 396.0
+margin_top = 396.0
+margin_right = 524.0
+margin_bottom = 524.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel17" type="Panel" parent="Inventory/ScrollContainer"]
+margin_top = 528.0
+margin_right = 128.0
+margin_bottom = 656.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel18" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 132.0
+margin_top = 528.0
+margin_right = 260.0
+margin_bottom = 656.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel19" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 264.0
+margin_top = 528.0
+margin_right = 392.0
+margin_bottom = 656.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel20" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 396.0
+margin_top = 528.0
+margin_right = 524.0
+margin_bottom = 656.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel21" type="Panel" parent="Inventory/ScrollContainer"]
+margin_top = 660.0
+margin_right = 128.0
+margin_bottom = 788.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel22" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 132.0
+margin_top = 660.0
+margin_right = 260.0
+margin_bottom = 788.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel23" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 264.0
+margin_top = 660.0
+margin_right = 392.0
+margin_bottom = 788.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="Panel24" type="Panel" parent="Inventory/ScrollContainer"]
+margin_left = 396.0
+margin_top = 660.0
+margin_right = 524.0
+margin_bottom = 788.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 1 )
+
+[node name="EquipScrollSlot" type="GridContainer" parent="Inventory"]
+margin_left = 364.307
+margin_top = 683.091
+margin_right = 492.307
+margin_bottom = 811.091
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Inventory/EquipScrollSlot"]
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+custom_styles/panel = SubResource( 8 )
+script = ExtResource( 1 )
+
+[node name="Background" type="TextureRect" parent="Inventory/EquipScrollSlot/Panel"]
+self_modulate = Color( 0.207843, 0.188235, 0.188235, 1 )
+margin_right = 512.0
+margin_bottom = 512.0
+rect_scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TransitionScreen" parent="." instance=ExtResource( 10 )]
+
+[connection signal="cast_magic" from="Inventory/EquipScrollSlot/Panel" to="." method="_on_Panel_cast_magic"]
+[connection signal="delete_magic" from="Inventory/EquipScrollSlot/Panel" to="." method="_on_Panel_delete_magic"]
