@@ -1,9 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=2]
-
-[ext_resource path="res://textures/magic_masks/particle_snowflake.png" type="Texture" id=1]
-[ext_resource path="res://materials/shader/magic_single_tex.shader" type="Shader" id=2]
-
-[resource]
-shader = ExtResource( 2 )
-shader_param/emission_intensity = 1.5
-shader_param/texture_mask = ExtResource( 1 )
