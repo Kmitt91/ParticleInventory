@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://materials/Fire.tres" type="Material" id=1]
+[ext_resource path="res://textures/Gradients/FireGradient.tres" type="Texture" id=2]
+[ext_resource path="res://textures/Gradients/EmberGradient.tres" type="Texture" id=3]
+[ext_resource path="res://textures/magic_masks/particle_hard.png" type="Texture" id=4]
+[ext_resource path="res://textures/circular_mask.png" type="Texture" id=5]
+[ext_resource path="res://materials/Stars.tres" type="Material" id=6]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0.736364 ), 0.0, 2.58843, 0, 0, Vector2( 1, 1 ), -0.84878, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=2]
+width = 512
+curve = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+gravity = Vector3( 0, -1000, 0 )
+initial_velocity = 50.0
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 2.0
+scale_random = 1.0
+scale_curve = SubResource( 2 )
+color_ramp = ExtResource( 2 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+emission_shape = 1
+emission_sphere_radius = 32.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 180.0
+gravity = Vector3( 0, -700, 0 )
+initial_velocity = 200.0
+initial_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 0.1
+scale_curve = SubResource( 2 )
+color_ramp = ExtResource( 3 )
+
+[node name="Fire2D" type="Particles2D"]
+material = ExtResource( 1 )
+amount = 32
+randomness = 0.75
+draw_order = 1
+process_material = SubResource( 3 )
+texture = ExtResource( 5 )
+
+[node name="Ember2D" type="Particles2D" parent="."]
+material = ExtResource( 6 )
+rotation = 9.09495e-13
+amount = 16
+speed_scale = 0.5
+randomness = 0.75
+draw_order = 1
+process_material = SubResource( 6 )
+texture = ExtResource( 4 )
