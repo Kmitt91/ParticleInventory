@@ -5,7 +5,7 @@ const SlotClass = preload("res://scripts/Slot.gd")
 onready var scroll_slots = $ScrollContainer.get_children()
 onready var magic_equip_slot = $EquipScrollSlot.get_children()
 var holding_item = null
-
+var offset = Vector2(0,0)
 
 func _ready():
 	
@@ -33,14 +33,16 @@ func slot_gui_input(event: InputEvent, slot: SlotClass):
 					if holding_item.spell_name != slot.spell.spell_name:
 						var temp_item = slot.spell
 						slot.pickFromSlot()
-						temp_item.global_position = event.global_position
+						#offset = event.global_position - slot.rect_global_position
+						temp_item.global_position = event.global_position - offset
 						slot.putIntoSlot(holding_item)
 						holding_item = temp_item
 
 			elif slot.spell:
 				holding_item = slot.spell
 				slot.pickFromSlot()
-				holding_item.global_position = get_global_mouse_position()
+				offset = get_global_mouse_position() - slot.rect_global_position
+				holding_item.global_position = get_global_mouse_position() - offset
 				
 			
 		
@@ -49,4 +51,4 @@ func slot_gui_input(event: InputEvent, slot: SlotClass):
 
 func _input(event):
 	if holding_item:
-		holding_item.global_position = get_global_mouse_position()
+		holding_item.global_position = get_global_mouse_position() - offset
